@@ -3,17 +3,10 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
     <events>
-        <event-block sid="541458824008302">
-            <conditions>
-                <condition id="0" name="On clicked" sid="473622666731266" type="btnConnect" />
-            </conditions>
-            <actions>
-                <action id="0" name="Connect" sid="144772605007718" type="WebSocket">
-                    <param id="0" name="URL">&quot;ws://localhost:8080&quot;</param>
-                    <param id="1" name="Protocol (optional)">&quot;&quot;</param>
-                </action>
-            </actions>
-        </event-block>
+        <variable constant="0" name="x" sid="449144876837840" static="0" type="number">0</variable>
+        <variable constant="0" name="sum" sid="310256906489456" static="0" type="number">0</variable>
+        <variable constant="0" name="average" sid="520178069974116" static="0" type="number">0</variable>
+        <variable constant="0" name="eeg3" sid="870655305333373" static="0" type="number">0</variable>
         <event-block sid="137038752798143">
             <conditions>
                 <condition id="0" name="On opened" sid="962178117955555" type="WebSocket" />
@@ -34,23 +27,219 @@
                 </action>
             </actions>
         </event-block>
-        <event-block sid="517426483623698">
-            <conditions>
-                <condition id="3" name="On message" sid="310901611011947" type="WebSocket" />
-            </conditions>
-            <actions>
-                <action id="0" name="Set text" sid="939355140333760" type="txtEeg3">
-                    <param id="0" name="Text">WebSocket.MessageText</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="356819903375604">
-            <conditions>
-                <condition id="0" name="On clicked" sid="954657296507529" type="btnDisconnect" />
-            </conditions>
-            <actions>
-                <action id="1" name="Close" sid="981433924133914" type="WebSocket" />
-            </actions>
-        </event-block>
+        <event-group description="" inactive="1" sid="381207400960389" title="EEG3">
+            <sub-events>
+                <event-block sid="517426483623698">
+                    <conditions>
+                        <condition id="3" name="On message" sid="310901611011947" type="WebSocket" />
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Set Y" sid="794817061909539" type="Particles">
+                            <param id="0" name="Y">200+ eeg3/10</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="849280676962506" type="System">
+                            <param id="0" name="Variable">eeg3</param>
+                            <param id="1" name="Value">WebSocket.MessageText</param>
+                        </action>
+                        <action id="0" name="Set text" sid="939355140333760" type="txtEeg3">
+                            <param id="0" name="Text">eeg3</param>
+                        </action>
+                        <action id="5" name="Push" sid="694872100023351" type="Array">
+                            <param id="0" name="Where">1</param>
+                            <param id="1" name="Value">eeg3</param>
+                            <param id="2" name="Axis">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="970033899730012" title="EEG3, X and Y">
+            <sub-events>
+                <event-block sid="760695271608681">
+                    <conditions>
+                        <condition id="3" name="On message" sid="626723239836712" type="WebSocket" />
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="282592706001025">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="454069425110562" type="System">
+                                    <param id="0" name="First value">find(WebSocket.MessageText, &quot;e&quot;)</param>
+                                    <param id="1" name="Comparison">1</param>
+                                    <param id="2" name="Second value">-1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action disabled="1" id="0" name="Set text" sid="588322628287595" type="txtDebug">
+                                    <param id="0" name="Text">WebSocket.MessageText</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="284156046264388" type="System">
+                                    <param id="0" name="Variable">eeg3</param>
+                                    <param id="1" name="Value">tokenat(WebSocket.MessageText, 1, &quot; &quot;)</param>
+                                </action>
+                                <action id="-2" name="Set Y" sid="718820683944943" type="Particles">
+                                    <param id="0" name="Y">200+ eeg3/10</param>
+                                </action>
+                                <action id="5" name="Push" sid="905061113245827" type="Array">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Value">eeg3</param>
+                                    <param id="2" name="Axis">0</param>
+                                </action>
+                                <action id="0" name="Set text" sid="468013062314581" type="txtEeg3">
+                                    <param id="0" name="Text">eeg3</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="301717455176016">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="998263569616373" type="System">
+                                    <param id="0" name="First value">find(WebSocket.MessageText, &quot;x&quot;)</param>
+                                    <param id="1" name="Comparison">1</param>
+                                    <param id="2" name="Second value">-1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="871708033111669" type="System">
+                                    <param id="0" name="Variable">x</param>
+                                    <param id="1" name="Value">tokenat(WebSocket.MessageText, 1, &quot; &quot;)</param>
+                                </action>
+                                <action id="0" name="Set text" sid="193692868919989" type="txtX">
+                                    <param id="0" name="Text">x</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="649240045426536" title="Buttons">
+            <sub-events>
+                <comment>Button Connect</comment>
+                <event-block sid="541458824008302">
+                    <conditions>
+                        <condition id="0" name="On clicked" sid="473622666731266" type="btnConnect" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Connect" sid="144772605007718" type="WebSocket">
+                            <param id="0" name="URL">&quot;ws://localhost:8080&quot;</param>
+                            <param id="1" name="Protocol (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>Button Dis-Connect</comment>
+                <event-block sid="356819903375604">
+                    <conditions>
+                        <condition id="0" name="On clicked" sid="954657296507529" type="btnDisconnect" />
+                    </conditions>
+                    <actions>
+                        <action id="1" name="Close" sid="981433924133914" type="WebSocket" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="570421036192921" title="Function">
+            <sub-events>
+                <event-block sid="122917473252518">
+                    <conditions>
+                        <condition id="0" name="On function" sid="941800985742340" type="Function">
+                            <param id="0" name="Name">&quot;CalculateAverage&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="557690480823507" type="System">
+                            <param id="0" name="Variable">sum</param>
+                            <param id="1" name="Value">0</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="434549397172953">
+                            <conditions>
+                                <condition id="-12" name="Repeat" sid="670271561079713" type="System">
+                                    <param id="0" name="Count">Array.Width-20</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="6" name="Pop" sid="200880634009067" type="Array">
+                                    <param id="0" name="Where">0</param>
+                                    <param id="1" name="Axis">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="868434647590265">
+                            <conditions>
+                                <condition id="3" name="For each element" sid="936170813419125" type="Array">
+                                    <param id="0" name="Axes">2</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Add to" sid="660742104197983" type="System">
+                                    <param id="0" name="Variable">sum</param>
+                                    <param id="1" name="Value">Array.CurValue</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="958279519353131">
+                            <conditions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="365279761753486" type="System">
+                                    <param id="0" name="Variable">average</param>
+                                    <param id="1" name="Value">sum/Array.Width</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="971938100619131" title="Update Text">
+            <sub-events>
+                <event-block sid="628526636155416">
+                    <conditions>
+                        <condition id="-1" name="Every tick" sid="452201115239499" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="662533301429871" type="txtAvg">
+                            <param id="0" name="Text">average</param>
+                        </action>
+                        <action id="0" name="Call function" sid="758385663870257" type="Function">
+                            <param id="0" name="Name">&quot;CalculateAverage&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="492324165088835">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="881023415297372" type="System">
+                                    <param id="0" name="First value">abs(Array.CurValue-average)</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">50</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="5" name="Set frame" sid="102681913088512" type="blinkCircle">
+                                    <param id="0" name="Frame number">1</param>
+                                </action>
+                                <action id="0" name="Play" sid="402340472770924" type="Audio">
+                                    <param id="0" name="Audio file">OK - 1</param>
+                                    <param id="2" name="Loop">0</param>
+                                    <param id="3" name="Volume">0</param>
+                                    <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="359012220526618">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="930641088657759" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="5" name="Set frame" sid="575428635433478" type="blinkCircle">
+                                    <param id="0" name="Frame number">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>
