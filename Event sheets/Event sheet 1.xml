@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <event-block sid="541458824008302">
+            <conditions>
+                <condition id="0" name="On clicked" sid="473622666731266" type="btnConnect" />
+            </conditions>
+            <actions>
+                <action id="0" name="Connect" sid="144772605007718" type="WebSocket">
+                    <param id="0" name="URL">&quot;ws://localhost:8080&quot;</param>
+                    <param id="1" name="Protocol (optional)">&quot;&quot;</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="137038752798143">
+            <conditions>
+                <condition id="0" name="On opened" sid="962178117955555" type="WebSocket" />
+            </conditions>
+            <actions>
+                <action id="1" name="Append text" sid="454460019396999" type="txtEeg3">
+                    <param id="0" name="Text">&quot;CONNECTION OPENED&quot;</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="469194601901341">
+            <conditions>
+                <condition id="2" name="On error" sid="557328136214616" type="WebSocket" />
+            </conditions>
+            <actions>
+                <action id="1" name="Append text" sid="720279355122800" type="txtEeg3">
+                    <param id="0" name="Text">&quot;CONNECTION ERROR&quot;</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="517426483623698">
+            <conditions>
+                <condition id="3" name="On message" sid="310901611011947" type="WebSocket" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="939355140333760" type="txtEeg3">
+                    <param id="0" name="Text">WebSocket.MessageText</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="356819903375604">
+            <conditions>
+                <condition id="0" name="On clicked" sid="954657296507529" type="btnDisconnect" />
+            </conditions>
+            <actions>
+                <action id="1" name="Close" sid="981433924133914" type="WebSocket" />
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>
